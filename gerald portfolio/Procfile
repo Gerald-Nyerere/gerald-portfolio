@@ -1,0 +1,1 @@
+web: gunicorn gerald_portfolio.wsgi:application
