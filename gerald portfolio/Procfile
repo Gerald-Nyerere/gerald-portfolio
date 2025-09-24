@@ -1,1 +1,1 @@
-web: gunicorn gerald_portfolio.wsgi:application
+gunicorn gerald_portfolio.wsgi:application --bind 0.0.0.0:$PORT
