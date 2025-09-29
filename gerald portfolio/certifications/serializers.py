@@ -6,8 +6,9 @@ class CertificationSerializer(serializers.ModelSerializer):
     
     def get_image(self, obj):
         if obj.image:
-            return obj.image.url  # This returns the full Cloudinary URL
+            return obj.image.url 
         return None
+    
     class Meta:
         model = Certification
         fields = '__all__'
