@@ -5,9 +5,10 @@ class CertificationSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     
     def get_image(self, obj):
-        if obj.image:
-            return obj.image.url 
-        return None
+        try:
+            return str(obj.image.url) if obj.image else None
+        except:
+            return None
     
     class Meta:
         model = Certification
