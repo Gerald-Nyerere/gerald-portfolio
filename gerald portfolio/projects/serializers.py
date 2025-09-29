@@ -5,6 +5,7 @@ from .models import Project
 class ProjectSerializer(serializers.ModelSerializer):
     technologies_used = SkillSerializer(many=True, read_only=True)
     project_type_display = serializers.CharField(source='get_project_type_display', read_only=True)
+    architecture_diagram = serializers.SerializerMethodField()
     
     class Meta:
         model = Project
@@ -13,3 +14,9 @@ class ProjectSerializer(serializers.ModelSerializer):
             'technologies_used', 'github_url', 'live_demo_url', 
             'architecture_diagram', 'featured', 'created', 'modified'
         ]
+
+    def get_architecture_diagram(self, obj):
+        try:
+            return obj.architecture_diagram.url if obj.architecture_diagram else None
+        except Exception:
+            return None
