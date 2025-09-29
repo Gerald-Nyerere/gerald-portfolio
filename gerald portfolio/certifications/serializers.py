@@ -2,12 +2,14 @@ from rest_framework import serializers
 from .models import Certification
 
 class CertificationSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(use_url=True)
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Certification
-        fields = '__all__'
-
+        fields = ["id", "created", "modified", "name", "issuer",
+            "category", "issue_date", "expiration_date",
+            "credential_id", "credential_url", "image"]
+        
     def get_image(self, obj):
         if obj.image:
             return obj.image.url 
