@@ -1,6 +1,7 @@
 from django.db import models
 from timestamped.models import TimeStampedModel
 from skills.models import Skill
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Project(TimeStampedModel):
@@ -18,7 +19,7 @@ class Project(TimeStampedModel):
     technologies_used = models.ManyToManyField(Skill, blank=True, related_name='projects') 
     github_url = models.URLField(blank=True, null=True)
     live_demo_url = models.URLField(blank=True, null=True)
-    architecture_diagram = models.ImageField(upload_to='architecture_diagrams/', blank=True, null=True)
+    architecture_diagram = CloudinaryField('image', folder='architecture_diagrams', blank=True, null=True)
     featured = models.BooleanField(default=False)
 
     class Meta:

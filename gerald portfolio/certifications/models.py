@@ -1,6 +1,8 @@
 from django.db import models
 from timestamped.models import TimeStampedModel
-from django.utils import timezone  
+from django.utils import timezone 
+from cloudinary.models import CloudinaryField
+
 # Create your models here.
 class Certification(TimeStampedModel):
     class Category(models.TextChoices):
@@ -15,7 +17,7 @@ class Certification(TimeStampedModel):
     expiration_date = models.DateField(blank=True, null=True)
     credential_id = models.CharField(max_length=100, blank=True)
     credential_url = models.URLField(blank=True)
-    image = models.ImageField(upload_to="certification", blank=True, null=True)
+    image = CloudinaryField('image', folder="certification", blank=True, null=True)
 
     class Meta:
         ordering = ["-issue_date"]
