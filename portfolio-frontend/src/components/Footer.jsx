@@ -15,7 +15,7 @@ const Footer = () => {
         {/* Social Icons */}
         <div className="flex gap-6">
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/gerald-nyerere"
             target="_blank"
             rel="noopener noreferrer"
             className="text-2xl hover:text-yellow-300 transition-colors"

@@ -8,7 +8,8 @@ const Projects = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/projects/")
+    const API_URL = import.meta.env.VITE_API_URL;
+    fetch(`${API_URL}/api/projects/`)
       .then((res) => res.json())
       .then((data) => {
         const formatted = data.map((project) => ({

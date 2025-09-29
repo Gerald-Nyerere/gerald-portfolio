@@ -1,4 +1,3 @@
-// src/components/CertificationCard.jsx
 import React from "react";
 
 const CertificationCard = ({ cert }) => {

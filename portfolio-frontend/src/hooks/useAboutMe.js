@@ -1,4 +1,3 @@
-// src/hooks/useAboutMe.js
 import { useEffect, useState } from "react";
 
 export const useAboutMe = () => {
@@ -9,7 +8,11 @@ export const useAboutMe = () => {
   useEffect(() => {
     const fetchAboutMe = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/about/"); 
+        const API_URL = import.meta.env.VITE_API_URL;
+
+      
+
+        const response = await fetch(`${API_URL}/api/about/`); 
         // 👆 Your Django AboutMe API endpoint
         if (!response.ok) {
           throw new Error("Failed to fetch About Me data");
