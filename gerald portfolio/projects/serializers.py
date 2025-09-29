@@ -7,7 +7,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     project_type_display = serializers.CharField(source='get_project_type_display', read_only=True)
     architecture_diagram = serializers.SerializerMethodField()
     
-    def architecture_diagram(self, obj):
+    def get_architecture_diagram(self, obj):
         if obj.architecture_diagram:
             return obj.architecture_diagram.url 
         return None
