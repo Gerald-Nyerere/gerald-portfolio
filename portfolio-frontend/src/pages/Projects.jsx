@@ -6,26 +6,42 @@ import { FaPlus } from "react-icons/fa";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL;
+  const CLOUDINARY_BASE = import.meta.env.VITE_CLOUDINARY_BASE;
 
   useEffect(() => {
-    const API_URL = import.meta.env.VITE_API_URL;
-    fetch(`${API_URL}/api/projects/`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/projects/`);
+        const data = await res.json();
+
         const formatted = data.map((project) => ({
           id: project.id,
           title: project.title,
           description: project.description,
-          tech: project.technologies_used.map((t) => t.name),
+          tech: project.technologies_used
+            ? project.technologies_used.map((t) => t.name)
+            : [],
           link: `/projects/${project.id}`,
+          // Handle image URL (if local or partial path)
           architecture_diagram: project.architecture_diagram
-            ? project.architecture_diagram.replace("127.0.0.1", "localhost")
+            ? project.architecture_diagram.startsWith("http")
+              ? project.architecture_diagram
+              : `${CLOUDINARY_BASE}${project.architecture_diagram.replace(
+                  "127.0.0.1",
+                  "localhost"
+                )}`
             : null,
         }));
+
         setProjects(formatted);
-      })
-      .catch((err) => console.error("Error fetching projects:", err));
-  }, []);
+      } catch (err) {
+        console.error("Error fetching projects:", err);
+      }
+    };
+
+    fetchProjects();
+  }, [API_URL, CLOUDINARY_BASE]);
 
   return (
     <div className="min-h-screen w-full bg-gray-900 relative overflow-hidden">
@@ -66,7 +82,7 @@ const Projects = () => {
             >
               <Link to={project.link}>
                 <div className="bg-gray-800 rounded-2xl shadow-lg p-4">
-                  <ProjectCard project={project} />
+                  <ProjectCard project={project} cloudinaryBase={CLOUDINARY_BASE} />
                 </div>
               </Link>
             </motion.div>

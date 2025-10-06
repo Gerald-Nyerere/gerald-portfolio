@@ -5,10 +5,12 @@ const Certifications = () => {
   const [certs, setCerts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+  const CLOUDINARY_BASE = import.meta.env.VITE_CLOUDINARY_BASE;
+
   useEffect(() => {
     const fetchCerts = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL;
         const response = await fetch(`${API_URL}/api/certifications/`);
         const data = await response.json();
         setCerts(data);
@@ -20,7 +22,7 @@ const Certifications = () => {
     };
 
     fetchCerts();
-  }, []);
+  }, [API_URL]);
 
   const isExpired = (expirationDate) => {
     if (!expirationDate) return false;
@@ -51,56 +53,72 @@ const Certifications = () => {
             visible: { transition: { staggerChildren: 0.2 } },
           }}
         >
-          {certs.map((cert) => (
-            <motion.div
-              key={cert.id}
-              variants={{
-                hidden: { opacity: 0, scale: 0.9, y: 20 },
-                visible: { opacity: 1, scale: 1, y: 0 },
-              }}
-              transition={{ duration: 0.4 }}
-              className="bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-2xl transition flex flex-col"
-            >
-              {cert.image && (
-                <img
-                  src={cert.image}
-                  alt={cert.name}
-                  className="w-full h-40 object-cover rounded-lg mb-4"
-                />
-              )}
-              <h3 className="text-xl font-semibold text-white">{cert.name}</h3>
-              <p className="text-gray-300">{cert.issuer}</p>
-              <p className="text-sm text-gray-400">
-                Issued: {new Date(cert.issue_date).toLocaleDateString()}
-              </p>
-              {cert.expiration_date && (
-                <p
-                  className={`text-sm ${
-                    isExpired(cert.expiration_date)
-                      ? "text-red-500"
-                      : "text-green-400"
-                  }`}
-                >
-                  {isExpired(cert.expiration_date)
-                    ? "Expired"
-                    : `Valid until: ${new Date(cert.expiration_date).toLocaleDateString()}`}
+          {certs.map((cert) => {
+            // Build full Cloudinary image URL
+            const imageUrl = cert.image
+              ? `${CLOUDINARY_BASE}${cert.image}`
+              : null;
+
+            return (
+              <motion.div
+                key={cert.id}
+                variants={{
+                  hidden: { opacity: 0, scale: 0.9, y: 20 },
+                  visible: { opacity: 1, scale: 1, y: 0 },
+                }}
+                transition={{ duration: 0.4 }}
+                className="bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-2xl transition flex flex-col"
+              >
+                {imageUrl && (
+                  <img
+                    src={imageUrl}
+                    alt={cert.name}
+                    className="w-full h-40 object-cover rounded-lg mb-4"
+                  />
+                )}
+                <h3 className="text-xl font-semibold text-white">
+                  {cert.name}
+                </h3>
+                <p className="text-gray-300">{cert.issuer}</p>
+                <p className="text-sm text-gray-400">
+                  Issued: {new Date(cert.issue_date).toLocaleDateString()}
                 </p>
-              )}
-              {cert.credential_id && (
-                <p className="text-sm text-gray-400">ID: {cert.credential_id}</p>
-              )}
-              {cert.credential_url && (
-                <a
-                  href={cert.credential_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-purple-400 hover:underline text-sm mt-2 block"
-                >
-                  View Credential
-                </a>
-              )}
-            </motion.div>
-          ))}
+
+                {cert.expiration_date && (
+                  <p
+                    className={`text-sm ${
+                      isExpired(cert.expiration_date)
+                        ? "text-red-500"
+                        : "text-green-400"
+                    }`}
+                  >
+                    {isExpired(cert.expiration_date)
+                      ? "Expired"
+                      : `Valid until: ${new Date(
+                          cert.expiration_date
+                        ).toLocaleDateString()}`}
+                  </p>
+                )}
+
+                {cert.credential_id && (
+                  <p className="text-sm text-gray-400">
+                    ID: {cert.credential_id}
+                  </p>
+                )}
+
+                {cert.credential_url && (
+                  <a
+                    href={cert.credential_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-400 hover:underline text-sm mt-2 block"
+                  >
+                    View Credential
+                  </a>
+                )}
+              </motion.div>
+            );
+          })}
         </motion.div>
       )}
     </div>

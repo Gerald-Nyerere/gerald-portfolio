@@ -1,4 +1,3 @@
-// src/components/SkillCard.jsx
 import React from "react";
 import { motion } from "framer-motion";
 import { FaDatabase } from "react-icons/fa";
