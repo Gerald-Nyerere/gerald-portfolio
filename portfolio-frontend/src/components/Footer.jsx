@@ -22,7 +22,7 @@ const Footer = () => {
             <FaGithub />
           </a>
           <a
-            href="https://linkedin.com/in/yourusername"
+            href="https://linkedin.com/in/gerald-nyerere-20b54b22a"
             target="_blank"
             rel="noopener noreferrer"
             className="text-2xl hover:text-yellow-300 transition-colors"
@@ -30,7 +30,7 @@ const Footer = () => {
             <FaLinkedin />
           </a>
           <a
-            href="https://twitter.com/yourusername"
+            href="https://twitter.com/GERALDNYER16384"
             target="_blank"
             rel="noopener noreferrer"
             className="text-2xl hover:text-yellow-300 transition-colors"
