@@ -70,7 +70,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # React dev server
-    "https://gerald-frontend.onrender.com" # for deployment
+    "https://gerald-portfolio-virid.vercel.app/" # for deployment
 ]
 
 ROOT_URLCONF = 'gerald_portfolio.urls'
